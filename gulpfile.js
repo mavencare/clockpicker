@@ -70,4 +70,6 @@ gulp.task('test', function() {
         .pipe(qunit());
 });
 
+gulp.task('build', ['js', 'css']);
+
 gulp.task('default', ['js', 'css', 'watch']);

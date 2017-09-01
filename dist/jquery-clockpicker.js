@@ -116,7 +116,6 @@
 		this.spanHours = popover.find('.clockpicker-span-hours');
 		this.spanMinutes = popover.find('.clockpicker-span-minutes');
 		this.spanAmPm = popover.find('.clockpicker-span-am-pm');
-		this.amOrPm = options.defaultPeriod === 'none' ? '' : options.defaultPeriod || 'PM';
 
 		// Setup for for 12 hour clock if option is selected
 		if (options.twelvehour) {
@@ -673,10 +672,12 @@
 	// Hours and minutes are selected
 	ClockPicker.prototype.done = function() {
 		raiseCallback(this.options.beforeDone);
-		this.hide();
 		var last = this.input.prop('value'),
 			value = leadingZero(this.hours) + ':' + leadingZero(this.minutes);
+
 		if  (this.options.twelvehour) {
+			if (!this.amOrPm) { return; }
+
 			value = value + this.amOrPm;
 		}
 
@@ -691,6 +692,8 @@
 		if (this.options.autoclose) {
 			this.input.trigger('blur');
 		}
+
+		this.hide();
 
 		raiseCallback(this.options.afterDone);
 	};
